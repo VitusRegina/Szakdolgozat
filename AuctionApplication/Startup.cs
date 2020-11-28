@@ -8,7 +8,6 @@ using AuctionApplication.BL;
 using AuctionApplication.DAL;
 using AuctionApplication.Hubs;
 using AuctionApplication.Services;
-using AuctionApplicaton.Controller;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -22,6 +21,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using AuctionApplication.BL;
+using AuctionApplicaton.BL;
 
 namespace AuctionApplication
 {
@@ -52,8 +52,17 @@ namespace AuctionApplication
             services.AddScoped<IBidRepo, BidRepo>();
             services.AddScoped<IBidManager, BidManager>();
             services.AddScoped<IImageRepo, ImageRepo>();
-            services.AddScoped<IUser, UserRepo>();
+            services.AddScoped<IUserRepo, UserRepo>();
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<BidingHub, BidingHub>();
+            services.AddSingleton<PasswordService, PasswordService>();
+
+            var emailConfig = Configuration
+        .GetSection("EmailConfiguration")
+        .Get<EmailConfiguration>();
+            services.AddSingleton(emailConfig);
+
+            services.AddScoped<IEmailSender, EmailSender>();
 
             var appSettingsSection = Configuration.GetSection("MySettings");
             services.Configure<MySettings>(appSettingsSection);
@@ -72,7 +81,7 @@ namespace AuctionApplication
                 {
                     OnTokenValidated = context =>
                     {
-                        var userService = context.HttpContext.RequestServices.GetRequiredService<IUser>();
+                        var userService = context.HttpContext.RequestServices.GetRequiredService<IUserRepo>();
                         var userId = int.Parse(context.Principal.Identity.Name);
                         var user = userService.GetById(userId);
                         if (user == null)

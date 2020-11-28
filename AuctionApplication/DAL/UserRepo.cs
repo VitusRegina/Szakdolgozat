@@ -1,20 +1,27 @@
 ﻿
+
+
 using AuctionApplication.Models;
-using AuctionApplicaton.Controller;
+using AuctionApplication.Services;
+using AuctionApplicaton.BL;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
+using System.Security.Cryptography;
 
 namespace AuctionApplication.DAL
 {
-    public class UserRepo : IUser
+    public class UserRepo : IUserRepo
     {
         private AuctionDbContext db;
+        private PasswordService PasswordService;
+        private readonly IEmailSender emailSender;
 
-        public UserRepo(AuctionDbContext context)
+        public UserRepo(AuctionDbContext context,PasswordService ps, IEmailSender es)
         {
             db = context;
+            PasswordService = ps;
+            emailSender = es;
         }
 
         public User Authenticate(string email, string password)
@@ -24,15 +31,11 @@ namespace AuctionApplication.DAL
 
             var user = db.Users.SingleOrDefault(x => x.Email == email);
 
-            // check if username exists
             if (user == null)
                 return null;
-
-            // check if password is correct
             if (!VerifyPasswordHash(password, user.PasswordHash, user.PasswordSalt))
                 return null;
 
-            // authentication successful
             return user;
         }
 
@@ -61,10 +64,8 @@ namespace AuctionApplication.DAL
 
             byte[] passwordHash, passwordSalt;
             CreatePasswordHash(password, out passwordHash, out passwordSalt);
-
             user.PasswordHash = passwordHash;
             user.PasswordSalt = passwordSalt;
-
             db.Users.Add(user);
             db.SaveChanges();
 
@@ -78,17 +79,17 @@ namespace AuctionApplication.DAL
             if (user == null)
                 throw new Exception("User not found");
 
-            // update username if it has changed
+            
             if (!string.IsNullOrWhiteSpace(userParam.Username) && userParam.Username != user.Username)
             {
-                // throw error if the new username is already taken
+                
                 if (db.Users.Any(x => x.Username == userParam.Username))
                     throw new Exception("Username " + userParam.Username + " is already taken");
 
                 user.Username = userParam.Username;
             }
 
-            // update user properties if provided
+            
             if (!string.IsNullOrWhiteSpace(userParam.FirstName))
                 user.FirstName = userParam.FirstName;
 
@@ -101,7 +102,7 @@ namespace AuctionApplication.DAL
             if (!string.IsNullOrWhiteSpace(userParam.PhoneNumber))
                 user.PhoneNumber = userParam.PhoneNumber;
 
-            // update password if provided
+           
             if (!string.IsNullOrWhiteSpace(password))
             {
                 byte[] passwordHash, passwordSalt;
@@ -155,5 +156,32 @@ namespace AuctionApplication.DAL
 
             return true;
         }
+
+        public string RecoverPassword(string email)
+        {
+            var user = db.Users.FirstOrDefault(x => x.Email == email);
+            if(user == null)
+                throw new Exception("There is no account registered with this email address");
+
+            string password = PasswordService.Generate(8,0);
+
+            if (!string.IsNullOrWhiteSpace(password))
+            {
+                byte[] passwordHash, passwordSalt;
+                CreatePasswordHash(password, out passwordHash, out passwordSalt);
+                
+                user.PasswordHash = passwordHash;
+                user.PasswordSalt = passwordSalt;
+
+                var message = new Message(new string[] { email }, "Password reset", "Your login code is:  "+password);
+                emailSender.SendEmail(message);
+            }
+
+            db.Users.Update(user);
+             db.SaveChanges();
+            return password;
+
+        }
     }
+   
 }

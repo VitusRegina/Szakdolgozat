@@ -1,24 +1,10 @@
 
-import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
+import { HubConnection, HubConnectionBuilder } from '@microsoft/signalr';
+
+export const connection : HubConnection= new HubConnectionBuilder()
+.withUrl("https://localhost:5001/biding")
+.build();
 
 
-export default function connection(): HubConnection{
-    const hubConnection= new HubConnectionBuilder()
-    .withUrl("https://localhost:5001/chat")
-    .build();
 
-    const sendSum = (i:number, s: number) => { 
-        console.log("sendSum meghivva")
-        hubConnection.invoke('SendSum',i, s)
-        .catch((err: string) => console.error(err));  
-    };
 
-    try {
-         hubConnection.start()
-        console.log('Connection successful!')
-    }
-    catch (err) {
-        alert(err);
-    }
-    return hubConnection;
-}

@@ -10,11 +10,12 @@ import Col from 'react-bootstrap/Col';
 
 import AccountPic from '../Images/account.png';
 import authHeader from "../Services/TokenService";
+import  userId  from '../Services/UserService';
 
 
 const a : any ={};
 
-function Profile() {
+export default function Profile() {
     const [data, setData] = useState(a);
     const [email,setEmail]=useState('');
     const [firstName, setFirstName] = useState("");
@@ -28,35 +29,35 @@ function Profile() {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const res = await axios.get('https://localhost:5001/api/users/'+1, { headers: authHeader() });
-          setData(res.data);    
+            const res = await axios.get('https://localhost:5001/api/users/'+userId().id, { headers: authHeader() });
+            setData(res.data);    
         } catch (error) {
-          console.log(error);
+            console.log(error);
         }
       };
       fetchData();
-      setEmail(data.email);
+          setEmail(data.email);
           setFirstName(data.firstName);
           setSecondName(data.lastName);
           setUserName(data.username);
           setAddress(data.address);
           setPhone(data.phoneNumber);
-          
     }, []);
 
     function postLogin() {
       console.log('post login invited');
         axios.put("https://localhost:5001/api/users/"+1, {
-                "id": 1, 
+                "id": userId().id, 
                 "email": userName,
                 "firstname": firstName,
                 "lastname": lastName,
                 "username": userName,
                 "address": address,
                 "phoneNumber": phone
-        }).then(()=>console.log('success')).catch(e => {
+        })
+        .then(()=>console.log('success'))
+        .catch(e => {
         });
-        
       }
 
 
@@ -76,10 +77,8 @@ function Profile() {
               <Form.Control
                type="email"
                value={email}
-              onChange={(e: React.FormEvent<HTMLInputElement>) => {
-                setEmail(e.currentTarget.value);
-              }}
               placeholder={data.email}
+              disabled
             />
             </Form.Group>
         <Form.Group>
@@ -87,10 +86,11 @@ function Profile() {
               <Form.Control
                type="firstname"
                value={firstName}
-              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setFirstName(e.currentTarget.value);
               }}
               placeholder={data.firstName}
+            
             />
             </Form.Group>
 
@@ -99,7 +99,7 @@ function Profile() {
         <Form.Control
               type="lastname"
               value={lastName}
-              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setSecondName(e.currentTarget.value);
               }}
               placeholder={data.lastName}
@@ -111,7 +111,7 @@ function Profile() {
         <Form.Control
               type="username"
               value={userName}
-              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setUserName(e.currentTarget.value);
               }}
               placeholder={data.username}
@@ -124,7 +124,7 @@ function Profile() {
         <Form.Control
               type="address"
               value={address}
-              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setAddress(e.currentTarget.value);
               }}
               placeholder={data.address}
@@ -136,7 +136,7 @@ function Profile() {
         <Form.Control
               type="phone"
               value={phone}
-              onChange={(e: React.FormEvent<HTMLInputElement>) => {
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                 setPhone(e.currentTarget.value);
               }}
               placeholder={data.phoneNumber}
@@ -154,4 +154,3 @@ function Profile() {
   );
 }
 
-export default Profile;

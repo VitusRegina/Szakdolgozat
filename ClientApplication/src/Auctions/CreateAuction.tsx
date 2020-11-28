@@ -11,18 +11,13 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
 
-export default function CreateAuction(props : any) {
+export default function CreateAuction() {
     const [sum, setSum] = useState('');
     const [id, setId] = useState(0);
     const [startDate, setStartDate] = useState(new Date());
     const [endDate, setEndDate] = useState(new Date());
-  
-    function handleChange(e: React.FormEvent<HTMLInputElement>) {
-      setSum(e.currentTarget.value);
-      console.log(sum);
-    }
 
-    function handleChange2(e: Date | null) {
+    function handleChange2(e: Date | null ) {
       if (e != null)
       setStartDate(e);
     }
@@ -53,7 +48,7 @@ export default function CreateAuction(props : any) {
                 <Form.Label>
                  Startprice:
                  </Form.Label>
-                 <Form.Control type="number" value={sum} onChange={handleChange} />
+                 <Form.Control type="number" value={sum} onChange={(event)=>{setSum(event.currentTarget.value);}} />
                 </Form.Group>
 
             <Form.Group>

@@ -4,11 +4,11 @@ import Button from "react-bootstrap/Button";
 
 
 
-interface IProp {
+interface IProps {
     ClickHandler: (t: string) => void
   }
 
-export default function SearchBox(props : IProp){
+export default function SearchBox(props : IProps){
     const [searchtext,setSearchText]=useState('');
 
     const handleChange = (e: React.FormEvent<HTMLInputElement>) =>{

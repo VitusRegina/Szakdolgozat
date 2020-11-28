@@ -1,18 +1,21 @@
-﻿using Microsoft.AspNetCore.SignalR;
+﻿
+using Microsoft.AspNetCore.SignalR;
+using System;
 using System.Threading.Tasks;
+
 
 namespace AuctionApplication.Hubs
 {
     public class BidingHub : Hub
     {
-        public async Task SendMessage(int id, string user, string message)
+        private readonly IHubContext<BidingHub> _hubContext;
+        public BidingHub(IHubContext<BidingHub> hubContext)
         {
-            await Clients.All.SendAsync("ReceiveMessage",id, user, message);
+            _hubContext = hubContext;
         }
-
-        public async Task SendSum(int id, int sum)
+        public async Task SendSum(int aucid, int sum, string username, DateTime date)
         {
-            await Clients.All.SendAsync("ReceiveSum", id, sum);
+            await _hubContext.Clients.All.SendAsync("ReceiveSum", aucid, sum, username, date);
         }
     }
 }

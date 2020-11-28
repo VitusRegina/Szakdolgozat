@@ -11,7 +11,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Moment from 'react-moment';
 
-interface IFunctionProp {
+interface IProps {
   id : number;
   sum : string;
   thingid : number;
@@ -20,7 +20,7 @@ interface IFunctionProp {
 }
 
 
-export default function Modify(props : IFunctionProp) {
+export default function Modify(props : IProps) {
         const [sum, setSum] = useState(props.sum);
         const [thingid, setId] = useState(props.thingid);
         const [startDate, setStartDate] = useState(props.startdate);
@@ -29,11 +29,14 @@ export default function Modify(props : IFunctionProp) {
         const [intervalType, setIntervalType]=useState('sec');
         const i:number=props.id;
         var newDate : Date;
+        const id = props.id;
+
+        
     
-      function handleChange1(e: React.FormEvent<HTMLInputElement>) {
+      function handleChange1(e: React.FormEvent<HTMLInputElement> | any) {
         setInterval(Number(e.currentTarget.value));
       }
-      function handleChange2(e: React.FormEvent<HTMLInputElement>) {
+      function handleChange2(e: React.FormEvent<HTMLInputElement> | any) {
         setIntervalType(e.currentTarget.value);
        }
 

@@ -23,11 +23,11 @@ export default function Modify(props: IFunctionProp5){
       const [id, setId] = useState(props.id);
       const i:number=Number(props.id);
     
-      function handleChange1(e: React.FormEvent<HTMLInputElement>) {
+      function handleChange1(e: React.ChangeEvent<HTMLInputElement>) {
         setName(e.currentTarget.value);
         console.log(id);
       }
-      function handleChange2(e: React.FormEvent<HTMLInputElement>) {
+      function handleChange2(e: React.ChangeEvent<HTMLInputElement>) {
           setDescription(e.currentTarget.value);
         }
       const handleSubmit=async ()=> {

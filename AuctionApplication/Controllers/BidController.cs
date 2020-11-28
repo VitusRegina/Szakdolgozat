@@ -1,4 +1,5 @@
 ﻿
+using AuctionApplication.Hubs;
 using AuctionApplication.Models.FinalModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +15,12 @@ namespace AuctionApplication.Controllers
     public class BidController : ControllerBase
     {
         private readonly IBidManager _bm;
+        private readonly BidingHub hub;
 
-        public BidController(IBidManager bm)
+        public BidController(IBidManager bm, BidingHub h)
         {
             _bm = bm;
+            hub = h;
         }
 
         [HttpGet("{aucID}")]
@@ -34,8 +37,17 @@ namespace AuctionApplication.Controllers
         [HttpPost]
         public async Task<ActionResult> Create([FromBody] FinalBid newBid)
         {
+            var data = await _bm.SelectBids(newBid.AuctionID);
+            int max=0;
+            if(data != null)
+                max = data.Max(b => b.Sum);
+            if(max >= newBid.Sum)
+            {
+                return BadRequest(new { message = "Sum must be higher than actual price!" });
+            }
             await _bm.CreateBid(newBid);
-            return CreatedAtAction(nameof(Get), new { }, new { });
+            await hub.SendSum(newBid.AuctionID, newBid.Sum, newBid.PersonName, newBid.Time);
+            return Ok();
         }
 
         

@@ -77,5 +77,10 @@ D:\vitus\Documents\Szakdolgozat\AuctionApplication\AuctionApplication\bin\Debug\
 D:\vitus\Documents\Szakdolgozat\AuctionApplication\AuctionApplication\bin\Debug\netcoreapp3.1\Microsoft.Extensions.Options.ConfigurationExtensions.dll
 D:\vitus\Documents\Szakdolgozat\AuctionApplication\AuctionApplication\bin\Debug\netcoreapp3.1\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 D:\vitus\Documents\Szakdolgozat\AuctionApplication\AuctionApplication\bin\Debug\netcoreapp3.1\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+D:\vitus\Documents\Szakdolgozat\AuctionApplication\AuctionApplication\bin\Debug\netcoreapp3.1\LanguageExt.Core.dll
+D:\vitus\Documents\Szakdolgozat\AuctionApplication\AuctionApplication\bin\Debug\netcoreapp3.1\MailKit.dll
+D:\vitus\Documents\Szakdolgozat\AuctionApplication\AuctionApplication\bin\Debug\netcoreapp3.1\MimeKit.dll
+D:\vitus\Documents\Szakdolgozat\AuctionApplication\AuctionApplication\bin\Debug\netcoreapp3.1\BouncyCastle.Crypto.dll
+D:\vitus\Documents\Szakdolgozat\AuctionApplication\AuctionApplication\bin\Debug\netcoreapp3.1\Microsoft.AspNet.SignalR.Core.dll
 D:\vitus\Documents\Szakdolgozat\AuctionApplication\AuctionApplication\obj\Debug\netcoreapp3.1\AuctionApplication.csproj.CoreCompileInputs.cache
 D:\vitus\Documents\Szakdolgozat\AuctionApplication\AuctionApplication\obj\Debug\netcoreapp3.1\AuctionApplication.MvcApplicationPartsAssemblyInfo.cache

@@ -10,7 +10,7 @@ import Form from "react-bootstrap/Form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
-interface IFunctionProp {
+interface IProps {
   id : number;
   sum : string;
   thingid : number;
@@ -19,14 +19,14 @@ interface IFunctionProp {
 }
 
 
-export default function Modify(props : IFunctionProp) {
+export default function Modify(props : IProps) {
         const [sum, setSum] = useState(props.sum);
         const [thingid, setId] = useState(props.thingid);
         const [startDate, setStartDate] = useState(props.startdate);
         const [endDate, setEndDate] = useState(props.enddate);
         const i:number=props.id;
     
-      function handleChange1(e: React.FormEvent<HTMLInputElement>) {
+      function handleChange1(e: React.FormEvent<HTMLInputElement> | any) {
         setSum(e.currentTarget.value);
       }
       function handleChange2(e: Date | null) {

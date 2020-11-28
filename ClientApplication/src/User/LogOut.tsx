@@ -3,16 +3,15 @@ import { useAuth } from "../Services/AuthService";
 import { Route, Redirect } from "react-router-dom";
 import { useEffect } from 'react';
 
-function Admin(props : any) {
+export default function Logout() {
   const { setAuthTokens } = useAuth();
 
   useEffect(() => {
     setAuthTokens();
-  },[]);
+  });
 
   return (
     <Route><Redirect to="/login" /></Route>
   );
 }
 
-export default Admin;

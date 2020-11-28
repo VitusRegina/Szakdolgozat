@@ -20,7 +20,7 @@ namespace AuctionApplication.DAL
             db = dbcontext;
         }
    
-        public async Task<IEnumerable<FinalBid>> SelectBid(int aucID) => await db.Bids.Where(b => b.AuctionID == aucID).OrderBy(b => b.Sum).Select(t => t.GetFinalBid()).ToListAsync();
+        public async Task<IEnumerable<FinalBid>> SelectBid(int aucID) => await db.Bids.Include(b => b.User).Where(b => b.AuctionID == aucID).OrderBy(b => b.Sum).Select(b => b.GetFinalBid()).ToListAsync();
        
         public async Task DeleteBid(int bidID)
         {

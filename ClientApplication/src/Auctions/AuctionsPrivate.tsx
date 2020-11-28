@@ -12,8 +12,15 @@ import SearchBox from "../Common/SearchBox";
 import SingleAuction from "./SingleAuction";
 import CreateAuction from "./CreateAuction";
 import { Auction } from '../Common/Interfaces';
+import userId from "../Services/UserService";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
-interface IBasicProp{
+interface IProps{
   ClickHandler1: (prop : any[]) => void
   ClickHandler2: (prop:boolean) => void
   b : boolean
@@ -22,14 +29,11 @@ interface IBasicProp{
 
 
 
-export default function AuctionList(props : IBasicProp){
+export default function AuctionList(props : IProps){
   let a : Auction[] =[];
     const [data, setData] = useState(a);
     const [finaldata, setFinalData] = useState(a);
     const [isError, setIsError] = useState(false);
-    const [selected,setSelected] = useState(0);
-    const [selectedmaxsum,setSelectedMaxSum] = useState(0);
-    const [isSelected,setSelect]=useState(false);
     const [searchtext,setSearchText]=useState('');
     const [create, setCreate]=useState(false);
 
@@ -37,7 +41,7 @@ export default function AuctionList(props : IBasicProp){
       const fetchData = async () => {
         setIsError(false);
         try {
-          const res = await axios.get<Auction[]>('https://localhost:5001/api/auction?userId=1',);
+          const res = await axios.get<Auction[]>('https://localhost:5001/api/auction?userId='+ userId().id,);
           setData(res.data);
           setFinalData(res.data);
         } catch (error) {
@@ -48,7 +52,6 @@ export default function AuctionList(props : IBasicProp){
       fetchData();
     },[]);
 
-  const handleBack=()=> {setSelect(false);}
   const handleSearch=(t : string)=>{
     if(t !== '')
     {
@@ -73,8 +76,6 @@ if(create === false)
   return (
     <div>
       {isError && <div>Something went wrong ...</div>}
-      
-       
         <Container>
             <SearchBox ClickHandler={handleSearch}/>
             <Row>
@@ -101,8 +102,9 @@ if(create === false)
                        ) :
                        (
                         <Card.Footer>
-                            <Card.Link href="/modifyauction">Modify</Card.Link>
-                            <Card.Link href="/deleteauction">Delete</Card.Link>
+                          <Link to={{pathname: '/expandtime', state:{id: 1}}}>Create Idea</Link>
+                            <Card.Link  href="/expandtime">Modify</Card.Link>
+                            <Card.Link  href="/expandtime">Delete</Card.Link>
                         </Card.Footer>
                        )
                      )}
@@ -121,7 +123,7 @@ else
 {
   return(
     <div>
-    <CreateAuction ClickHandler={handleCreate}/>
+    <CreateAuction />
     </div>
   )
 }

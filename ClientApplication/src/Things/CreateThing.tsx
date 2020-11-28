@@ -10,6 +10,7 @@ import Form from "react-bootstrap/Form";
 import authHeader from "../Services/TokenService";
 import { Thing } from "../Common/Interfaces"
 import ThingList from "./Things";
+import userId from "../Services/UserService";
 
 
 interface IProp{
@@ -18,24 +19,24 @@ interface IProp{
 let l: File;
 let s:string;
 
-function MyForm(props: IProp) {
+export default function Create(props: IProp) {
     const [name, setName] = useState(s);
     const [description, setDescription] = useState(s);
     const [image,setImage]=useState(l);  
     const [data, setData] = useState<Thing>();
     const [id,setId]=useState(s);
   
-    function handleChange1(e: React.FormEvent<HTMLInputElement>) {
+    function handleChange1(e: React.ChangeEvent<HTMLInputElement> | any) {
       setName(e.currentTarget.value);
       console.log(name);
     }
 
-    function handleChange2(e: React.FormEvent<HTMLInputElement>) {
+    function handleChange2(e: React.ChangeEvent<HTMLInputElement> | any) {
         setDescription(e.currentTarget.value);
         console.log(description)
       }
 
-    function handleImageChange(selectorFiles: FileList | null){
+    function handleImageChange(selectorFiles: FileList | null ){
       if(selectorFiles !== null)
           setImage(selectorFiles[0]);
       };
@@ -45,7 +46,7 @@ function MyForm(props: IProp) {
           const res = await axios.post('https://localhost:5001/api/thing',{
              "name": name,
              "desccription": description,
-             "userid": 1,
+             "userid": userId().id,
              "kategoria": 2 
            },{ headers: authHeader() });
           setData(res.data);
@@ -100,7 +101,7 @@ function MyForm(props: IProp) {
                    id="file"
                    name="file"
                    accept="image/png, image/jpeg"
-                   onChange={ (e: React.FormEvent<HTMLInputElement>) => handleImageChange(e.currentTarget.files)} />
+                   onChange={ (e: React.ChangeEvent<HTMLInputElement>) => handleImageChange(e.currentTarget.files)} />
                 </Form.Label>
               </Form.Group>
 
@@ -120,11 +121,3 @@ function MyForm(props: IProp) {
     
   }
 
-
-export default function Create(props: IProp){
-    return(
-        <div>
-            <MyForm ClickHandler={props.ClickHandler}/>
-        </div>
-    )
-}

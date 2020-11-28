@@ -3,11 +3,11 @@ import axios from 'axios';
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
 
-interface IFunctionProp {
+interface IProps {
   id : number;
 }
 
-export default function Delete(props : IFunctionProp) {
+export default function Delete(props : IProps) {
 
   const i:number=props.id;
     const handleSubmit= async ()=> {

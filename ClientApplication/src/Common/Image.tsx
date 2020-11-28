@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 
-interface IProp{
+interface IProps{
   id:number;
   small:boolean;
 }
 
-class Image extends Component<IProp> {
+class Image extends Component<IProps> {
   state = { source: " "};
 
   componentDidMount() {

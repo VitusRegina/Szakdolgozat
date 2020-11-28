@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import './Styles/style.css'
+import './Outlook/Styles/style.css'
 import Home from './Home';
 import Things from './Things/Things';
 import Navbar from 'react-bootstrap/Navbar';
@@ -24,7 +24,8 @@ import ModifyAuction from './Auctions/ModifyAuction' ;
 import DeleteAuction from "./Auctions/DeleteAuction";
 import PrivateAuction from './Auctions/AuctionsPrivate';
 import ExpandTime from './Auctions/ExpandTime';
-import AuctionList from './Auctions/AuctionList';
+import AuctionList from './Auctions/AuctionsList';
+import PasswordRecover from './User/PasswordRecover';
 
 
 
@@ -54,8 +55,6 @@ function Navigation() {
                     <Link to="/proba">Auctions</Link>
                 </Nav.Link>
                
-                <Nav.Link href="#link">    
-                </Nav.Link>
           </Nav>  
 
           {(
@@ -73,11 +72,12 @@ function Navigation() {
                             </Nav.Link>
                       </Nav>
                     )
-                  )}
+            )}
       
           </Navbar.Collapse>
       </Navbar>
-        <Switch>
+
+      <Switch>
           <Route exact path="/">
             <Home />
           </Route>
@@ -102,9 +102,11 @@ function Navigation() {
           <Route path="/deleteauction" component={DeleteAuction} />
           <Route path="/modifyauction" component={ModifyAuction} />
           <Route path="/expandtime" component={ExpandTime} />
+          <Route path="/passwordrecover" component={PasswordRecover} />
 
           
         </Switch>
+
     </Router>
     </AuthContext.Provider>
   );

@@ -19,6 +19,7 @@ import {
 } from "react-router-dom";
 import authHeader from "../Services/TokenService";
 import { Thing } from "../Common/Interfaces";
+import  userId  from '../Services/UserService';
 
 
 
@@ -31,12 +32,13 @@ import { Thing } from "../Common/Interfaces";
       const [isSelected,setSelect]=useState(false);
       const [searchtext,setSearchText]=useState('');
       const [create, setCreate]=useState(false);
+      
   
       useEffect(() => {
         const fetchData = async () => {
           setIsError(false);
           try {
-            const res = await axios.get<Thing[]>('https://localhost:5001/api/thing?userId=1',{ headers: authHeader() });
+            const res = await axios.get<Thing[]>('https://localhost:5001/api/thing?userId='+userId().id,{ headers: authHeader() });
             setData(res.data);
             setFinalData(res.data);
           } catch (error) {

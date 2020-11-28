@@ -41,7 +41,7 @@ export default function Home() {
         <Container className="big-container">
          {onlyOneAuction === false && <div className="section-heading text-uppercase text-center">Active auctions</div>}
             <ActiveAuctionList ClickHandler1={SelectedHandler1} ClickHandler2={SelectedHandler2} b={requireselected} list={selectedata} 
-             ClickHandler3={SelectedHandler3}/>   
+             BackHandler={SelectedHandler3}/>   
         </Container>
       </div> 
     );

@@ -8,14 +8,14 @@ import Dropdown from 'react-bootstrap/Dropdown';
 
 
 
-interface IFunctionProp3 {
+interface IProps {
   SearchHandler: (t: string) => void,
   FilterHandler: (mode: number) => void,
   OrderHandler: (mode: number) => void,
   CategoryHandler: (cat: number) => void
 }
 
-export default function SearchBox2(props : IFunctionProp3){
+export default function SearchBox2(props : IProps){
     const [searchtext,setSearchText]=useState('');
 
     const handleChange = (e: React.FormEvent<HTMLInputElement>) =>{
@@ -63,8 +63,8 @@ export default function SearchBox2(props : IFunctionProp3){
             </DropdownButton>
           </Col>
           <Col xs={2}>
-            
           </Col>
+          
           <Col xs={4}>
             <label>
              <input className="form-control" type="text" value={searchtext} onChange={handleChange} />
